@@ -1,0 +1,434 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energia + Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+  
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-start">
+      <a href="#" class="logo-link">
+        <span class="logo">Energia +</span>
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <!-- Ícones de Notificação e Perfil - Visíveis em todas as telas -->
+      <button class="btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-nav">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+        </svg>
+      </button>
+      <button class="btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-nav">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <!-- Título do Dashboard -->
+    <div class="dashboard-header">
+      <h1 class="dashboard-title">Dashboard de Energia</h1>
+      <p class="dashboard-subtitle">Monitoramento em tempo real do consumo energético</p>
+    </div>
+
+    <!-- Sistema de Abas -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('dashboard')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tab-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.5-1.5l1 3" />
+          </svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('mapa')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tab-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+          </svg>
+          <span>Mapa</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Conteúdo da Aba Dashboard -->
+    <div id="dashboard-content" class="tab-content active">
+      <!-- Cards de Métricas -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <h3 class="metric-title">Consumo Atual</h3>
+            <p class="metric-value">1.247 kWh</p>
+            <p class="metric-change positive">+5.2% hoje</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.02 48.02 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l-.5 2.25m-.5-2.25v2.25m6-1.35c-1.09.38-2.26.596-3.5.596-.314 0-.62-.014-.918-.04M18.75 4.97l-.5 2.25M18.75 4.97L17 8.25m1.75-3.28l.5 2.25m-.5-2.25v2.25m0 0V9m0 0c.896 0 1.78-.079 2.646-.23" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <h3 class="metric-title">Economia</h3>
+            <p class="metric-value">R$ 342,80</p>
+            <p class="metric-change positive">+12.8% mês</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon orange">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <h3 class="metric-title">Eficiência</h3>
+            <p class="metric-value">89.2%</p>
+            <p class="metric-change negative">-2.1% semana</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <h3 class="metric-title">Custo Médio</h3>
+            <p class="metric-value">R$ 0,47</p>
+            <p class="metric-change neutral">por kWh</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos e Tabelas -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Consumo por Hora</h3>
+            <button class="card-action">Ver mais</button>
+          </div>
+          <div class="chart-container">
+            <div class="chart-placeholder">
+              <p>Gráfico de consumo por hora</p>
+              <small>Integração com biblioteca de gráficos pendente</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Dispositivos Conectados</h3>
+            <span class="status-badge active">12 ativos</span>
+          </div>
+          <div class="devices-list">
+            <div class="device-item">
+              <div class="device-info">
+                <span class="device-name">Ar Condicionado - Sala</span>
+                <span class="device-consumption">2.3 kW</span>
+              </div>
+              <span class="device-status active"></span>
+            </div>
+            <div class="device-item">
+              <div class="device-info">
+                <span class="device-name">Geladeira - Cozinha</span>
+                <span class="device-consumption">0.8 kW</span>
+              </div>
+              <span class="device-status active"></span>
+            </div>
+            <div class="device-item">
+              <div class="device-info">
+                <span class="device-name">TV - Quarto</span>
+                <span class="device-consumption">0.2 kW</span>
+              </div>
+              <span class="device-status inactive"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo da Aba Mapa -->
+    <div id="mapa-content" class="tab-content">
+      <div class="map-container">
+        <div id="map" class="map"></div>
+        <div class="map-controls">
+          <button class="map-btn" onclick="changeMapType('roadmap')">Estradas</button>
+          <button class="map-btn active" onclick="changeMapType('hybrid')">Híbrido</button>
+          <button class="map-btn" onclick="changeMapType('satellite')">Satélite</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sistema de Abas
+    function showTab(tabName) {
+      // Remove classe active de todas as abas e conteúdos
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Adiciona classe active na aba clicada
+      event.target.classList.add('active');
+      
+      // Mostra o conteúdo correspondente
+      document.getElementById(tabName + '-content').classList.add('active');
+      
+      // Se for a aba do mapa, inicializa o mapa
+      if (tabName === 'mapa') {
+        setTimeout(() => {
+          initMap();
+        }, 100);
+      }
+    }
+
+    // Variáveis globais para o mapa
+    let map;
+    let mapInitialized = false;
+    let currentTileLayer;
+    let roadmapLayer, satelliteLayer, hybridLayer;
+    let markers = [];
+
+    // Definir as camadas de tiles
+    function initTileLayers() {
+      // Camada de estradas (OpenStreetMap)
+      roadmapLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      });
+
+      // Camada de satélite (Esri World Imagery)
+      satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+      });
+
+      // Camada híbrida (satélite + labels)
+      const satelliteWithLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+      });
+
+      const labelsLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+      });
+
+      hybridLayer = L.layerGroup([satelliteWithLabels, labelsLayer]);
+    }
+
+    // Função para obter ícones personalizados
+    function getCustomIcon(type) {
+      const iconOptions = {
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      };
+
+      switch (type) {
+        case 'central':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker central-marker',
+            html: '<div style="background-color: #dc2626; border-radius: 50%; width: 24px; height: 24px; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+        case 'substation':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker substation-marker',
+            html: '<div style="background-color: #2563eb; border-radius: 50%; width: 20px; height: 20px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+        case 'solar':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker solar-marker',
+            html: '<div style="background-color: #f59e0b; border-radius: 50%; width: 18px; height: 18px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+        case 'monitor':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker monitor-marker',
+            html: '<div style="background-color: #10b981; border-radius: 50%; width: 16px; height: 16px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+        default:
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker default-marker',
+            html: '<div style="background-color: #6b7280; border-radius: 50%; width: 16px; height: 16px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+      }
+    }
+
+    // Função para obter labels dos tipos
+    function getMarkerTypeLabel(type) {
+      switch (type) {
+        case 'central': return 'Central de Distribuição';
+        case 'substation': return 'Subestação';
+        case 'solar': return 'Painel Solar';
+        case 'monitor': return 'Estação de Monitoramento';
+        default: return 'Instalação';
+      }
+    }
+
+    // Função para obter status aleatório
+    function getRandomStatus() {
+      const statuses = ['Operacional', 'Manutenção', 'Alerta', 'Offline'];
+      const colors = ['#10b981', '#f59e0b', '#ef4444', '#6b7280'];
+      const random = Math.floor(Math.random() * statuses.length);
+      return { status: statuses[random], color: colors[random] };
+    }
+
+    // Função para inicializar o mapa
+    function initMap() {
+      if (mapInitialized) return;
+      
+      try {
+        // Coordenadas de São Paulo
+        const center = [-23.5505, -46.6333];
+        
+        // Inicializar camadas
+        initTileLayers();
+        
+        // Criar o mapa
+        map = L.map('map', {
+          center: center,
+          zoom: 12,
+          layers: [hybridLayer] // Iniciar com camada híbrida
+        });
+        
+        currentTileLayer = hybridLayer;
+        
+        // Dados dos marcadores
+        const markersData = [
+          { lat: -23.5505, lng: -46.6333, title: "Central de Distribuição Principal", type: "central" },
+          { lat: -23.5605, lng: -46.6233, title: "Subestação Norte", type: "substation" },
+          { lat: -23.5405, lng: -46.6433, title: "Subestação Sul", type: "substation" },
+          { lat: -23.5555, lng: -46.6383, title: "Painel Solar Zona Oeste", type: "solar" },
+          { lat: -23.5455, lng: -46.6283, title: "Estação de Monitoramento Centro", type: "monitor" },
+          { lat: -23.5355, lng: -46.6183, title: "Subestação Leste", type: "substation" },
+          { lat: -23.5705, lng: -46.6483, title: "Painel Solar Zona Norte", type: "solar" },
+          { lat: -23.5255, lng: -46.6533, title: "Estação de Monitoramento Sul", type: "monitor" }
+        ];
+        
+        // Adicionar marcadores
+        markersData.forEach(markerData => {
+          const randomStatus = getRandomStatus();
+          
+          const marker = L.marker([markerData.lat, markerData.lng], {
+            icon: getCustomIcon(markerData.type)
+          }).addTo(map);
+          
+          // Popup com informações detalhadas
+          const popupContent = `
+            <div style="min-width: 200px; font-family: 'Segoe UI', sans-serif;">
+              <h4 style="margin: 0 0 8px 0; color: #1f2937; font-size: 14px; font-weight: 600;">
+                ${markerData.title}
+              </h4>
+              <div style="font-size: 12px; line-height: 1.4;">
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Tipo:</strong> ${getMarkerTypeLabel(markerData.type)}
+                </p>
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Status:</strong> 
+                  <span style="color: ${randomStatus.color}; font-weight: 500;">
+                    ${randomStatus.status}
+                  </span>
+                </p>
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Capacidade:</strong> ${Math.floor(Math.random() * 1000) + 100} kW
+                </p>
+                <p style="margin: 4px 0; color: #6b7280; font-size: 11px;">
+                  Última atualização: ${new Date().toLocaleTimeString('pt-BR')}
+                </p>
+              </div>
+            </div>
+          `;
+          
+          marker.bindPopup(popupContent);
+          markers.push(marker);
+        });
+        
+        mapInitialized = true;
+        console.log('Mapa Leaflet inicializado com sucesso!');
+        
+      } catch (error) {
+        console.error('Erro ao inicializar o mapa:', error);
+      }
+    }
+
+    // Função para mudar o tipo de mapa
+    function changeMapType(type) {
+      if (!map) return;
+      
+      // Remove a camada atual
+      if (currentTileLayer) {
+        map.removeLayer(currentTileLayer);
+      }
+      
+      // Adiciona a nova camada
+      switch (type) {
+        case 'roadmap':
+          currentTileLayer = roadmapLayer;
+          break;
+        case 'satellite':
+          currentTileLayer = satelliteLayer;
+          break;
+        case 'hybrid':
+          currentTileLayer = hybridLayer;
+          break;
+        default:
+          currentTileLayer = hybridLayer;
+      }
+      
+      map.addLayer(currentTileLayer);
+      
+      // Atualizar botões ativos
+      document.querySelectorAll('.map-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // Simular atualização de dados em tempo real
+    function updateMetrics() {
+      const consumoElement = document.querySelector('.metric-card .metric-value');
+      if (consumoElement) {
+        const currentValue = parseFloat(consumoElement.textContent.replace(/[^\d.,]/g, '').replace(',', '.'));
+        const variation = (Math.random() - 0.5) * 0.1;
+        const newValue = Math.max(0, currentValue + variation).toFixed(3);
+        consumoElement.textContent = newValue.replace('.', ',') + ' kWh';
+      }
+    }
+
+    // Atualizar métricas a cada 10 segundos
+    setInterval(updateMetrics, 10000);
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Dashboard carregado com Leaflet!');
+    });
+  </script>
+
+</body>
+</html>
