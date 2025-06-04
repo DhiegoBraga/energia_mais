@@ -1,0 +1,1608 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fafb; /* Cor de fundo mais suave */
+    color: #1f2937; /* Cor de texto principal */
+  }
+
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1.5rem; /* Ajustado para consistência */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    min-height: 4rem; /* Altura mínima da navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+  }
+
+  .navbar-start {
+    /* Alterado para permitir que navbar-end tenha mais espaço se necessário */
+    flex-shrink: 0; /* Não encolhe */
+  }
+  
+  /* .navbar-center removido pois não é mais usado para links */
+
+  .navbar-end {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* Reduzido o gap para acomodar mais ícones em mobile */
+    margin-left: auto; /* Empurra para a direita */
+  }
+
+  .logo-link {
+    text-decoration: none;
+  }
+
+  .logo {
+    font-weight: 700; /* Mais forte */
+    font-size: 1.5rem; /* Um pouco maior */
+    color: #111827;
+    padding: 0.5rem 0; /* Padding para alinhar melhor se houver outros itens */
+  }
+
+  /* Estilos para os links de navegação que foram removidos 
+     Manter .nav-link caso seja reutilizado em outro lugar,
+     ou remover se não for mais necessário. Por ora, vou comentar.
+  .nav-link {
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    padding: 0.5rem 1rem; 
+    border-radius: 0.375rem; 
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .nav-link:hover {
+    background-color: #f3f4f6; 
+    color: #1e40af; 
+  }
+  */
+  
+  /* Botão de Ícone na Navbar (Notificação, Perfil) */
+  .btn-icon {
+    background-color: transparent;
+    border: none;
+    border-radius: 50%; 
+    padding: 0.4rem; /* Levemente ajustado o padding */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+
+  .btn-icon:hover {
+    background-color: #f3f4f6; 
+  }
+
+  .icon-nav {
+    width: 1.35rem; /* Levemente reduzido para mobile */
+    height: 1.35rem;
+    stroke: #374151;
+  }
+
+  .btn-icon:hover .icon-nav {
+    stroke: #2563eb; 
+  }
+
+  /* Ícone do Menu Hamburguer */
+  .menu-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem; 
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    /* display: flex; é herdado de .btn-icon se aplicarmos a mesma classe base, 
+       mas como é separado, garantimos aqui */
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-toggle:hover {
+    background-color: #f3f4f6;
+  }
+
+  .menu-icon {
+    width: 1.5rem; /* Mantido um pouco maior que os ícones de ação */
+    height: 1.5rem;
+    stroke: #374151; 
+  }
+
+  .menu-toggle:hover .menu-icon {
+    stroke: #2563eb;
+  }
+
+  /* Menu Mobile */
+  .mobile-menu {
+    position: fixed;
+    top: 4rem; /* Abaixo da navbar */
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999; /* Abaixo da navbar, mas acima do conteúdo */
+    padding: 0.5rem 0; /* Espaçamento interno */
+    flex-direction: column; /* Links um abaixo do outro */
+    /* Se estiver vazio, não deve ocupar espaço visualmente */
+    /* Poderia adicionar: 
+    &:empty {
+      display: none;
+    } 
+    mas :empty não é bem suportado em todos os lugares ou pode ser complicado com comentários HTML.
+    A classe .hidden controlada por JS é mais robusta.
+    */
+  }
+
+  .nav-link-mobile {
+    display: flex; /* Para alinhar ícone e texto */
+    align-items: center;
+    gap: 0.75rem; /* Espaço entre ícone e texto */
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem; 
+    border-bottom: 1px solid #f3f4f6; 
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .nav-link-mobile:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link-mobile:hover {
+    background-color: #f3f4f6;
+    color: #1e40af;
+  }
+
+  .icon-mobile-menu {
+    width: 1.25rem; /* Tamanho dos ícones no menu mobile */
+    height: 1.25rem;
+    stroke: #374151;
+  }
+
+  .nav-link-mobile:hover .icon-mobile-menu {
+    stroke: #1e40af; /* Cor do ícone no hover, igual ao texto */
+  }
+
+  /* Classes de utilidade para responsividade (simulando Tailwind) */
+  .hidden {
+    display: none !important; /* Importante para sobrescrever outros displays */
+  }
+
+  .items-center { /* Para alinhar itens verticalmente no centro */
+    align-items: center;
+  }
+
+  .gap-2 { /* Para adicionar espaçamento, simulando gap-2 do Tailwind */
+    gap: 0.5rem;
+  }
+
+  /* Para empurrar o conteúdo para baixo, considerando a altura da navbar */
+  .content {
+    padding-top: 5rem; /* 4rem da navbar + 1rem de margem */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Dashboard Header */
+  .dashboard-header {
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+  .dashboard-subtitle {
+    color: #6b7280;
+    font-size: 1.1rem;
+  }
+
+  /* Sistema de Abas */
+  .tabs-container {
+    margin-bottom: 2rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto; /* Para scrolling horizontal em telas muito pequenas */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling no iOS */
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap; /* Evita quebra de texto */
+    min-width: 0; /* Permite que o flex funcione corretamente */
+    flex: 1; /* Em mobile, cada tab ocupa espaço igual */
+  }
+
+  .tab-btn:hover {
+    color: #374151;
+    background-color: #f9fafb;
+  }
+
+  .tab-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    background-color: #f0f9ff;
+  }
+
+  .tab-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* Conteúdo das Abas */
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Grid de Métricas */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .metric-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .metric-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+  }
+
+  .metric-icon.blue {
+    background-color: #3b82f6;
+  }
+
+  .metric-icon.green {
+    background-color: #10b981;
+  }
+
+  .metric-icon.orange {
+    background-color: #f59e0b;
+  }
+
+  .metric-icon.purple {
+    background-color: #8b5cf6;
+  }
+
+  .metric-info {
+    flex: 1;
+  }
+
+  .metric-title {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  .metric-value {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    color: #10b981;
+  }
+
+  .metric-change.negative {
+    color: #ef4444;
+  }
+
+  .metric-change.neutral {
+    color: #6b7280;
+  }
+
+  /* Grid do Dashboard */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .dashboard-card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .card-action {
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s;
+  }
+
+  .card-action:hover {
+    background-color: #f3f4f6;
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .status-badge.active {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  /* Chart Container */
+  .chart-container {
+    padding: 1.5rem;
+  }
+
+  .chart-placeholder {
+    height: 200px;
+    background-color: #f9fafb;
+    border: 2px dashed #d1d5db;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+  }
+
+  /* ApexCharts customization */
+  #monthly-generation-chart {
+    width: 100%;
+    min-height: 350px;
+  }
+
+  /* Responsividade do gráfico */
+  @media (max-width: 768px) {
+    #monthly-generation-chart {
+      min-height: 300px;
+    }
+    
+    .chart-container {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #monthly-generation-chart {
+      min-height: 250px;
+    }
+    
+    .chart-container {
+      padding: 0.75rem;
+    }
+  }
+
+  /* Lista de Dispositivos */
+  .devices-list {
+    padding: 1.5rem;
+  }
+
+  .device-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 1rem; /* Adicionar gap entre elementos */
+  }
+
+  .device-item:last-child {
+    border-bottom: none;
+  }
+
+  .device-item-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .device-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .device-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .device-name {
+    font-weight: 500;
+    color: #111827;
+  }
+
+  .device-consumption {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  /* Destacar recomendações de ação */
+  .action-cleaning {
+    color: #dc2626 !important;
+    font-weight: 600;
+  }
+
+  .action-maintenance {
+    color: #d97706 !important;
+    font-weight: 600;
+  }
+
+  .device-status {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    cursor: help;
+    position: relative;
+  }
+
+  .device-status.active {
+    background-color: #10b981;
+  }
+
+  .device-status.warning {
+    background-color: #f59e0b;
+  }
+
+  .device-status.error {
+    background-color: #ef4444;
+  }
+
+  .device-status.inactive {
+    background-color: #ef4444;
+  }
+
+  /* Tooltip para status dos painéis */
+  .device-status[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%;
+    right: 50%;
+    transform: translateX(50%);
+    background-color: #1f2937;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .device-status[title]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: 110%;
+    right: 50%;
+    transform: translateX(50%);
+    border: 4px solid transparent;
+    border-top-color: #1f2937;
+    z-index: 10;
+  }
+
+  /* Mapa */
+  .map-container {
+    position: relative;
+    height: 700px; /* Aumentado de 600px para 700px */
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Placeholder para quando o mapa não carrega */
+  .map-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .map-placeholder h3 {
+    margin-bottom: 1rem;
+    color: #374151;
+  }
+
+  .map-placeholder a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .map-controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .map-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+  }
+
+  .map-btn:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+  }
+
+  .map-btn.active {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+  }
+
+  /* Botões de localização na lista de dispositivos */
+  .locate-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-left: 0.5rem;
+  }
+
+  .locate-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  }
+
+  .locate-btn:active {
+    transform: translateY(0);
+  }
+
+  .locate-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  /* Animação para marcadores localizados */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Estilos para marcadores do mapa */
+  .custom-marker {
+    transition: all 0.3s ease;
+  }
+
+  .custom-marker:hover {
+    transform: scale(1.1);
+  }
+
+  /* Layout Principal */
+  .main-container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 4rem; /* Altura da navbar */
+  }
+
+  /* Sidebar Esquerda */
+  .sidebar {
+    width: 25%;
+    min-width: 280px;
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    overflow-y: auto;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .sidebar-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .sidebar-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-subtitle {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  /* Status do Sistema */
+  .system-status {
+    margin-bottom: 2rem;
+  }
+
+  .system-status-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+  }
+
+  /* Resumo dos Painéis */
+  .panels-summary {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #f8fafc;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+  }
+
+  .panels-total {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e40af;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .status-indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-indicator.active {
+    background-color: #10b981;
+  }
+
+  .status-indicator.warning {
+    background-color: #f59e0b;
+  }
+
+  .status-indicator.error {
+    background-color: #ef4444;
+  }
+
+  .status-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .status-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .status-value {
+    font-size: 0.875rem;
+    color: #111827;
+    font-weight: 500;
+  }
+
+  /* Resumo de Manutenção */
+  .maintenance-summary {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #fef3c7;
+    border-radius: 0.5rem;
+    border: 1px solid #f59e0b;
+    border-left: 4px solid #f59e0b;
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .summary-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .summary-label {
+    font-size: 0.75rem;
+    color: #92400e;
+    font-weight: 500;
+  }
+
+  .summary-value {
+    font-size: 0.75rem;
+    color: #1f2937;
+    font-weight: 600;
+  }
+
+  /* Ganhos Concretos na Sidebar */
+  .concrete-gains {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 0.75rem;
+    border: 1px solid #0ea5e9;
+  }
+
+  .concrete-gains-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0c4a6e;
+    margin-bottom: 0.5rem;
+  }
+
+  .gains-subtitle {
+    font-size: 0.75rem;
+    color: #0369a1;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .gain-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+  }
+
+  .gain-item:last-of-type {
+    border-bottom: none;
+  }
+
+  .gain-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .gain-icon svg {
+    width: 1rem;
+    height: 1rem;
+    color: white;
+  }
+
+  .gain-icon.money {
+    background-color: #059669;
+  }
+
+  .gain-icon.tree {
+    background-color: #065f46;
+  }
+
+  .gain-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .gain-label {
+    font-size: 0.75rem;
+    color: #0369a1;
+    font-weight: 500;
+  }
+
+  .gain-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0c4a6e;
+  }
+
+  .gain-detail {
+    font-size: 0.625rem;
+    color: #0284c7;
+    font-weight: 400;
+  }
+
+  .energy-recovered {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(14, 165, 233, 0.2);
+  }
+
+  .recovered-amount, .co2-avoided {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .recovered-label, .co2-label {
+    font-size: 0.625rem;
+    color: #0369a1;
+    font-weight: 500;
+  }
+
+  .recovered-value, .co2-value {
+    font-size: 0.75rem;
+    color: #0c4a6e;
+    font-weight: 600;
+  }
+
+  /* Última Atualização */
+  .last-update {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .update-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  .update-icon {
+    width: 1rem;
+    height: 1rem;
+    stroke: #6b7280;
+  }
+
+  /* Área Principal */
+  .main-content {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-width: calc(100% - 25%);
+  }
+
+  /* Cards da Usina na Área Principal */
+  .plant-overview {
+    margin-bottom: 2rem;
+  }
+
+  .plant-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .plant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .plant-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .plant-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .plant-card.panels {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+
+  .plant-card.generation {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  }
+
+  .plant-card.revenue {
+    border-color: #059669;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  }
+
+  .plant-card.losses {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  }
+
+  .plant-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .plant-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #374151;
+  }
+
+  .plant-icon.warning svg {
+    color: #f59e0b;
+  }
+
+  .plant-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .plant-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .plant-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .plant-detail {
+    font-size: 0.625rem;
+    color: #9ca3af;
+    font-weight: 400;
+  }
+
+  /* Responsividade */
+  @media (min-width: 1025px) { 
+    /* Desktop - Layout lado a lado */
+    .main-container {
+      flex-direction: row;
+    }
+
+    .sidebar {
+      width: 25%;
+      min-width: 320px;
+      border-right: 1px solid #e5e7eb;
+      border-bottom: none;
+    }
+
+    .main-content {
+      max-width: calc(100% - 25%);
+    }
+  }
+
+  /* Tablet (768px - 1024px) */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .main-container {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: unset;
+      border-right: none;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      padding: 1.25rem;
+    }
+
+    .main-content {
+      max-width: 100%;
+      padding: 1.25rem;
+    }
+
+    .plant-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    /* Otimizar sidebar no tablet */
+    .sidebar-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .system-status, .concrete-gains {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  /* Mobile (até 768px) */
+  @media (max-width: 768px) {
+    /* Layout principal mobile */
+    .main-container {
+      flex-direction: column;
+      padding-top: 4rem;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: unset;
+      border-right: none;
+      border-bottom: 2px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .main-content {
+      max-width: 100%;
+      padding: 1rem;
+    }
+
+    /* Navbar mobile */
+    .navbar {
+      padding: 0.5rem 1rem;
+      min-height: 3.5rem;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+    }
+
+    .navbar-start {
+      flex-grow: 0; 
+      margin-right: auto; 
+    }
+    
+    .icon-nav {
+      width: 1.125rem; 
+      height: 1.125rem;
+    }
+
+    .btn-icon {
+      padding: 0.375rem; 
+    }
+
+    /* Sidebar mobile otimizada */
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .sidebar-title {
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+      color: #1e40af;
+      font-weight: 800;
+    }
+
+    .sidebar-subtitle {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* Situação dos painéis mobile */
+    .system-status {
+      margin-bottom: 1.25rem;
+      padding: 0.875rem;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      border: 1px solid #f1f5f9;
+    }
+
+    .system-status-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .panels-summary {
+      margin-bottom: 0.75rem;
+      padding: 0.5rem;
+    }
+
+    .status-item {
+      padding: 0.375rem 0;
+      gap: 0.5rem;
+    }
+
+    .status-indicator {
+      width: 0.375rem;
+      height: 0.375rem;
+    }
+
+    .status-label {
+      font-size: 0.625rem;
+    }
+
+    .status-value {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .maintenance-summary {
+      margin-top: 0.75rem;
+      padding: 0.5rem;
+    }
+
+    .summary-label, .summary-value {
+      font-size: 0.625rem;
+    }
+
+    /* Ganhos concretos mobile */
+    .concrete-gains {
+      margin-bottom: 1rem;
+      padding: 0.875rem;
+      border-radius: 0.75rem;
+    }
+
+    .concrete-gains-title {
+      font-size: 0.875rem;
+      text-align: center;
+      margin-bottom: 0.375rem;
+    }
+
+    .gains-subtitle {
+      font-size: 0.625rem;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .gain-item {
+      padding: 0.5rem 0;
+      gap: 0.5rem;
+    }
+
+    .gain-icon {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    .gain-icon svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .gain-label {
+      font-size: 0.625rem;
+    }
+
+    .gain-value {
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .gain-detail {
+      font-size: 0.5rem;
+    }
+
+    .energy-recovered {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .recovered-label, .co2-label {
+      font-size: 0.5rem;
+    }
+
+    .recovered-value, .co2-value {
+      font-size: 0.625rem;
+    }
+
+    /* Última atualização mobile */
+    .last-update {
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .update-time {
+      font-size: 0.625rem;
+      justify-content: center;
+    }
+
+    .update-icon {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    /* Área principal mobile */
+    .plant-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .plant-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .plant-card {
+      padding: 0.875rem;
+      gap: 0.5rem;
+    }
+
+    .plant-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .plant-icon svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    .plant-label {
+      font-size: 0.625rem;
+    }
+
+    .plant-value {
+      font-size: 1.125rem;
+    }
+
+    .plant-detail {
+      font-size: 0.5rem;
+    }
+
+    /* Dashboard grid mobile */
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .dashboard-card {
+      border-radius: 0.75rem;
+    }
+
+    .card-header {
+      padding: 1rem 1rem 0.75rem 1rem;
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+    }
+
+    .card-action {
+      font-size: 0.75rem;
+      padding: 0.375rem;
+    }
+
+    .status-badge {
+      font-size: 0.625rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    /* Chart container mobile */
+    .chart-container {
+      padding: 0.875rem;
+    }
+
+    #monthly-generation-chart {
+      min-height: 280px;
+    }
+
+    /* Lista de dispositivos mobile */
+    .devices-list {
+      padding: 0.875rem;
+    }
+
+    .device-item {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.75rem 0;
+      gap: 0.5rem;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .device-item-content {
+      width: 100%;
+      gap: 0.75rem;
+    }
+
+    .device-item-actions {
+      width: 100%;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    .device-name {
+      font-size: 0.875rem;
+    }
+
+    .device-consumption {
+      font-size: 0.75rem;
+    }
+
+    .device-status {
+      width: 0.625rem;
+      height: 0.625rem;
+    }
+
+    .locate-btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+      gap: 0.25rem;
+    }
+
+    .locate-icon {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    /* Tabs mobile melhoradas */
+    .tabs-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs {
+      border-bottom: none;
+      background-color: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 0.25rem;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border-bottom: none;
+      flex: 1;
+      min-width: 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .tab-btn.active {
+      background-color: white;
+      color: #1e40af;
+      border-bottom: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-btn span {
+      display: inline;
+    }
+
+    .tab-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    /* Mapa mobile */
+    .map-container {
+      height: 400px;
+      border-radius: 0.75rem;
+    }
+
+    .map-controls {
+      top: 0.5rem;
+      right: 0.5rem;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .map-btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Mobile muito pequeno (até 480px) */
+  @media (max-width: 480px) {
+    .main-container {
+      padding-top: 3.5rem;
+    }
+
+    .sidebar {
+      padding: 0.75rem;
+    }
+
+    .main-content {
+      padding: 0.75rem;
+    }
+
+    /* Cards da usina em coluna única para telas muito pequenas */
+    .plant-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .plant-card {
+      flex-direction: row;
+      text-align: left;
+      padding: 0.75rem;
+    }
+
+    .plant-info {
+      align-items: flex-start;
+    }
+
+    .plant-value {
+      font-size: 1.25rem;
+    }
+
+    /* Ganhos concretos stack vertical */
+    .gain-item {
+      gap: 0.75rem;
+    }
+
+    .device-item {
+      padding: 1rem 0;
+    }
+
+    .device-item-content {
+      gap: 1rem;
+    }
+
+    .device-name {
+      font-weight: 600;
+    }
+
+    /* Mapa ainda menor */
+    .map-container {
+      height: 350px;
+    }
+
+    /* Chart menor */
+    #monthly-generation-chart {
+      min-height: 250px;
+    }
+
+    .chart-container {
+      padding: 0.75rem;
+    }
+
+    /* Tabs mais compactas */
+    .tab-btn {
+      padding: 0.625rem 0.75rem;
+      font-size: 0.6875rem;
+    }
+
+    .tab-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }

@@ -1,17 +1,956 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo: Energia +</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energia + Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+  
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+  <!-- ApexCharts JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
 </head>
 <body>
-    <h1>Demo: Energia +</h1>
-    <p>
-        Este é um projeto de demonstração para o sistema de gerenciamento de projetos da empresa Energia +.
-    </p>
-    <p>
-        O sistema foi desenvolvido para ajudar a empresa a gerenciar seus projetos de forma eficiente.
-    </p>
+
+  <nav class="navbar">
+    <div class="navbar-start">
+      <a href="#" class="logo-link">
+        <span class="logo">Energia +</span>
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <!-- Ícones de Notificação e Perfil -->
+      <button class="btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-nav">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+        </svg>
+      </button>
+      <button class="btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-nav">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <!-- Sidebar Esquerda -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="sidebar-title">Meu Resumo</h1>
+        <p class="sidebar-subtitle">Sistema de Monitoramento</p>
+      </div>
+
+      <!-- Situação dos Painéis -->
+      <div class="system-status">
+        <h3 class="system-status-title">Situação dos Painéis</h3>
+        <div class="panels-summary">
+          <span class="panels-total">2.857 painéis instalados</span>
+        </div>
+        
+        <div class="status-item">
+          <div class="status-indicator warning"></div>
+          <div class="status-info">
+            <span class="status-label">Necessitando Manutenção</span>
+            <span class="status-value">143 painéis (5%)</span>
+          </div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-indicator error"></div>
+          <div class="status-info">
+            <span class="status-label">Necessitando Limpeza</span>
+            <span class="status-value">571 painéis (20%)</span>
+          </div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-indicator active"></div>
+          <div class="status-info">
+            <span class="status-label">Em Perfeito Estado</span>
+            <span class="status-value">2.143 painéis (75%)</span>
+          </div>
+        </div>
+
+        <div class="maintenance-summary">
+          <div class="summary-item">
+            <span class="summary-label">Potencial de Recuperação:</span>
+            <span class="summary-value">R$ 49.028/ano</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ganhos Concretos -->
+      <div class="concrete-gains">
+        <h3 class="concrete-gains-title">Ganhos</h3>
+        <div class="gains-subtitle">2857 Painéis</div>
+        
+        <div class="gain-item financial">
+          <div class="gain-icon money">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="gain-info">
+            <span class="gain-label">Ganho Financeiro</span>
+            <span class="gain-value">R$ 20.000</span>
+            <span class="gain-detail">recuperados/ano</span>
+          </div>
+        </div>
+
+        <div class="gain-item environmental">
+          <div class="gain-icon tree">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.26-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+            </svg>
+          </div>
+          <div class="gain-info">
+            <span class="gain-label">Ganho Sustentável</span>
+            <span class="gain-value">+250</span>
+            <span class="gain-detail">árvores/ano</span>
+          </div>
+        </div>
+
+        <div class="energy-recovered">
+          <div class="recovered-amount">
+            <span class="recovered-label">Energia Recuperada</span>
+            <span class="recovered-value">122,57 MWh</span>
+          </div>
+          <div class="co2-avoided">
+            <span class="co2-label">CO² Evitado</span>
+            <span class="co2-value">15.887 kg/ano</span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Horário da Última Atualização -->
+      <div class="last-update">
+        <p class="update-time">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="update-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Última atualização: <span id="last-update-time">${new Date().toLocaleTimeString('pt-BR')}</span>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Área Principal -->
+    <main class="main-content">
+      <!-- Sistema de Abas -->
+      <div class="tabs-container">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab('dashboard')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tab-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.5-1.5l1 3" />
+            </svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="tab-btn" onclick="showTab('mapa')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tab-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+            </svg>
+            <span>Mapa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Aba Dashboard -->
+      <div id="dashboard-content" class="tab-content active">
+        <!-- Cards de Métricas da Usina -->
+        <div class="plant-overview">
+          <h2 class="plant-title">Visão Geral</h2>
+          <div class="plant-grid">
+            <div class="plant-card panels">
+              <div class="plant-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+              </div>
+              <div class="plant-info">
+                <span class="plant-label">Painéis Instalados</span>
+                <span class="plant-value">2.857</span>
+                <span class="plant-detail">350W cada</span>
+              </div>
+            </div>
+
+            <div class="plant-card generation">
+              <div class="plant-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                </svg>
+              </div>
+              <div class="plant-info">
+                <span class="plant-label">Geração Anual</span>
+                <span class="plant-value">1.751</span>
+                <span class="plant-detail">MWh/ano</span>
+              </div>
+            </div>
+
+            <div class="plant-card revenue">
+              <div class="plant-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="plant-info">
+                <span class="plant-label">Receita Atual</span>
+                <span class="plant-value">R$ 651.372</span>
+                <span class="plant-detail">após perdas de 7%</span>
+              </div>
+            </div>
+
+            <div class="plant-card losses">
+              <div class="plant-icon warning">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <div class="plant-info">
+                <span class="plant-label">Perdas Evitáveis</span>
+                <span class="plant-value">R$ 49.028</span>
+                <span class="plant-detail">manutenção/limpeza</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Gráficos e Tabelas -->
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3 class="card-title">CO² Evitado - Impacto Ambiental</h3>
+              <button class="card-action">Ver mais</button>
+            </div>
+            <div class="chart-container">
+              <div id="monthly-generation-chart"></div>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3 class="card-title">Painéis - Atenção Requerida</h3>
+              <span class="status-badge active">714 painéis</span>
+            </div>
+            <div class="devices-list">
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel A-127 (Setor Norte)</span>
+                    <span class="device-consumption action-cleaning">Necessita Limpeza - Eficiência: 67%</span>
+                  </div>
+                  <span class="device-status error" title="Necessita Limpeza"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('A-127', -24.5100599, -53.2746117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel B-203 (Setor Central)</span>
+                    <span class="device-consumption action-maintenance">Necessita Manutenção - Eficiência: 52%</span>
+                  </div>
+                  <span class="device-status warning" title="Necessita Manutenção"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('B-203', -24.5100599, -53.2745117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel C-089 (Setor Sul)</span>
+                    <span class="device-consumption action-cleaning">Necessita Limpeza - Eficiência: 71%</span>
+                  </div>
+                  <span class="device-status error" title="Necessita Limpeza"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('C-089', -24.5101498, -53.2746117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel D-156 (Setor Oeste)</span>
+                    <span class="device-consumption action-maintenance">Necessita Manutenção - Eficiência: 43%</span>
+                  </div>
+                  <span class="device-status warning" title="Necessita Manutenção"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('D-156', -24.5101498, -53.2745117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel A-034 (Setor Norte)</span>
+                    <span class="device-consumption action-cleaning">Necessita Limpeza - Eficiência: 78%</span>
+                  </div>
+                  <span class="device-status error" title="Necessita Limpeza"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('A-034', -24.5102397, -53.2746117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+              <div class="device-item">
+                <div class="device-item-content">
+                  <div class="device-info">
+                    <span class="device-name">Painel E-291 (Setor Leste)</span>
+                    <span class="device-consumption action-maintenance">Necessita Manutenção - Eficiência: 58%</span>
+                  </div>
+                  <span class="device-status warning" title="Necessita Manutenção"></span>
+                </div>
+                <div class="device-item-actions">
+                  <button class="locate-btn" onclick="locatePanelOnMap('E-291', -24.5102397, -53.2745117)">
+                    <svg class="locate-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Localizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Aba Mapa -->
+      <div id="mapa-content" class="tab-content">
+        <div class="map-container">
+          <div id="map" class="map"></div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Sistema de Abas
+    function showTab(tabName) {
+      // Remove classe active de todas as abas e conteúdos
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Encontrar e ativar o botão da aba correspondente
+      const targetButton = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+      if (targetButton) {
+        targetButton.classList.add('active');
+      }
+      
+      // Mostra o conteúdo correspondente
+      const targetContent = document.getElementById(tabName + '-content');
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+      
+      // Se for a aba do mapa, inicializa o mapa
+      if (tabName === 'mapa') {
+        setTimeout(() => {
+          initMap();
+        }, 100);
+      }
+    }
+
+    // Variáveis globais para o mapa
+    let map;
+    let mapInitialized = false;
+    let currentTileLayer;
+    let roadmapLayer, satelliteLayer, hybridLayer;
+    let markers = [];
+    let markersById = {};
+
+    // Definir as camadas de tiles
+    function initTileLayers() {
+      // Camada de estradas (OpenStreetMap)
+      roadmapLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      });
+
+      // Camada de satélite (Esri World Imagery)
+      satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+      });
+
+      // Camada híbrida (satélite + labels)
+      const satelliteWithLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+      });
+
+      const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+        });
+
+      const labelsLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+      });
+
+      hybridLayer = L.layerGroup([googleHybrid]);
+    }
+
+    // Função para obter ícones personalizados para painéis solares
+    function getSolarPanelIcon(status) {
+      const iconOptions = {
+        iconSize: [24, 24],
+        iconAnchor: [12, 24],
+        popupAnchor: [0, -24]
+      };
+
+      switch (status) {
+        case 'maintenance':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker maintenance-panel',
+            html: '<div style="background-color: #f59e0b; border-radius: 4px; width: 20px; height: 20px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 10px; font-weight: bold;">⚠</div></div>'
+          });
+        case 'cleaning':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker cleaning-panel',
+            html: '<div style="background-color: #ef4444; border-radius: 4px; width: 20px; height: 20px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 10px; font-weight: bold;">🧽</div></div>'
+          });
+        case 'optimal':
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker optimal-panel',
+            html: '<div style="background-color: #10b981; border-radius: 4px; width: 20px; height: 20px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 8px; font-weight: bold;">✓</div></div>'
+          });
+        default:
+          return L.divIcon({
+            ...iconOptions,
+            className: 'custom-marker default-panel',
+            html: '<div style="background-color: #6b7280; border-radius: 4px; width: 20px; height: 20px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>'
+          });
+      }
+    }
+
+    // Função para obter cor do status
+    function getStatusColor(status) {
+      switch (status) {
+        case 'maintenance': return '#f59e0b';
+        case 'cleaning': return '#ef4444';
+        case 'optimal': return '#10b981';
+        default: return '#6b7280';
+      }
+    }
+
+    // Função para obter label do status
+    function getStatusLabel(status) {
+      switch (status) {
+        case 'maintenance': return 'Necessita Manutenção';
+        case 'cleaning': return 'Necessita Limpeza';
+        case 'optimal': return 'Funcionamento Ideal';
+        default: return 'Status Desconhecido';
+      }
+    }
+
+    // Função para inicializar o mapa
+    function initMap() {
+      if (mapInitialized) return;
+      
+      try {
+        // Coordenadas de uma usina solar fictícia em São Paulo
+        const center = [-24.5100599, -53.2746117];
+        
+        // Inicializar camadas
+        initTileLayers();
+        
+        // Criar o mapa
+        map = L.map('map', {
+          center: center,
+          zoom: 18, // Zoom maior para ver os painéis
+          layers: [hybridLayer] // Híbrido é melhor para ver instalações
+        });
+        
+        currentTileLayer = hybridLayer;
+        
+        // Dados dos painéis solares - simulando uma usina real
+        const solarPanelsData = [
+          // Painéis que precisam de limpeza
+          { lat: -24.5100599, lng: -53.2746117, panel: "A-127", sector: "Norte", efficiency: 67, status: "cleaning", power: 350 },
+          { lat: -24.5101498, lng: -53.2746117, panel: "C-089", sector: "Sul", efficiency: 71, status: "cleaning", power: 350 },
+          { lat: -24.5102397, lng: -53.2746117, panel: "A-034", sector: "Norte", efficiency: 78, status: "cleaning", power: 350 },
+          { lat: -24.5103296, lng: -53.2746117, panel: "F-156", sector: "Oeste", efficiency: 63, status: "cleaning", power: 350 },
+          
+          // Painéis que precisam de manutenção
+          { lat: -24.5100599, lng: -53.2745117, panel: "B-203", sector: "Central", efficiency: 52, status: "maintenance", power: 350 },
+          { lat: -24.5101498, lng: -53.2745117, panel: "D-156", sector: "Oeste", efficiency: 43, status: "maintenance", power: 350 },
+          { lat: -24.5102397, lng: -53.2745117, panel: "E-291", sector: "Leste", efficiency: 58, status: "maintenance", power: 350 },
+          
+          // Painéis em funcionamento ideal
+          { lat: -24.5103296, lng: -53.2745117, panel: "A-001", sector: "Norte", efficiency: 96, status: "optimal", power: 350 },
+          { lat: -24.5100599, lng: -53.2745117, panel: "B-045", sector: "Central", efficiency: 94, status: "optimal", power: 350 },
+          { lat: -24.5101498, lng: -53.2744117, panel: "C-234", sector: "Sul", efficiency: 98, status: "optimal", power: 350 },
+          { lat: -24.5102397, lng: -53.2744117, panel: "D-078", sector: "Oeste", efficiency: 95, status: "optimal", power: 350 },
+          { lat: -24.5103296, lng: -53.2744117, panel: "E-167", sector: "Leste", efficiency: 97, status: "optimal", power: 350 },
+          { lat: -24.5100599, lng: -53.2744117, panel: "F-290", sector: "Norte", efficiency: 93, status: "optimal", power: 350 },
+          
+          // Mais alguns painéis para dar densidade ao mapa
+          { lat: -23.5499, lng: -46.6327, panel: "G-123", sector: "Sul", efficiency: 89, status: "optimal", power: 350 },
+          { lat: -23.5513, lng: -46.6341, panel: "H-045", sector: "Central", efficiency: 74, status: "cleaning", power: 350 },
+          { lat: -23.5498, lng: -46.6326, panel: "I-178", sector: "Leste", efficiency: 48, status: "maintenance", power: 350 }
+        ];
+        
+        // Adicionar marcadores para cada painel
+        solarPanelsData.forEach(panelData => {
+          const marker = L.marker([panelData.lat, panelData.lng], {
+            icon: getSolarPanelIcon(panelData.status)
+          }).addTo(map);
+          
+          // Armazenar marcador por ID para localização rápida
+          markersById[panelData.panel] = marker;
+          
+          // Calcular perda de eficiência
+          const idealEfficiency = 100;
+          const lossPercentage = idealEfficiency - panelData.efficiency;
+          const estimatedLoss = (panelData.power * (lossPercentage / 100) * 5 * 30 * 0.50).toFixed(0); // R$ por mês
+          
+          // Popup com informações detalhadas do painel
+          const popupContent = `
+            <div style="min-width: 240px; font-family: 'Segoe UI', sans-serif;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <div style="width: 12px; height: 12px; background-color: ${getStatusColor(panelData.status)}; border-radius: 2px;"></div>
+                <h4 style="margin: 0; color: #1f2937; font-size: 14px; font-weight: 600;">
+                  Painel ${panelData.panel}
+                </h4>
+              </div>
+              
+              <div style="font-size: 12px; line-height: 1.4;">
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Setor:</strong> ${panelData.sector}
+                </p>
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Status:</strong> 
+                  <span style="color: ${getStatusColor(panelData.status)}; font-weight: 600;">
+                    ${getStatusLabel(panelData.status)}
+                  </span>
+                </p>
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Eficiência Atual:</strong> ${panelData.efficiency}%
+                </p>
+                <p style="margin: 4px 0; color: #374151;">
+                  <strong>Potência:</strong> ${panelData.power}W
+                </p>
+                ${panelData.status !== 'optimal' ? `
+                <div style="margin-top: 8px; padding: 6px; background-color: #fef3c7; border-radius: 4px; border-left: 3px solid #f59e0b;">
+                  <p style="margin: 0; font-size: 11px; color: #92400e; font-weight: 500;">
+                    💰 Perda estimada: R$ ${estimatedLoss}/mês
+                  </p>
+                  <p style="margin: 2px 0 0 0; font-size: 10px; color: #a16207;">
+                    Ação recomendada: ${getStatusLabel(panelData.status)}
+                  </p>
+                </div>
+                ` : `
+                <div style="margin-top: 8px; padding: 6px; background-color: #d1fae5; border-radius: 4px; border-left: 3px solid #10b981;">
+                  <p style="margin: 0; font-size: 11px; color: #065f46; font-weight: 500;">
+                    ✅ Painel operando perfeitamente
+                  </p>
+                </div>
+                `}
+              </div>
+              
+              <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 10px; text-align: center;">
+                Última verificação: ${new Date().toLocaleString('pt-BR')}
+              </p>
+            </div>
+          `;
+          
+          marker.bindPopup(popupContent);
+          markers.push(marker);
+        });
+        
+        // Adicionar legenda ao mapa
+        const legend = L.control({position: 'bottomleft'});
+        legend.onAdd = function (map) {
+          const div = L.DomUtil.create('div', 'map-legend');
+          div.style.cssText = `
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-size: 12px;
+            line-height: 1.4;
+            border: 1px solid #e5e7eb;
+          `;
+          
+          div.innerHTML = `
+            <div style="font-weight: 600; margin-bottom: 6px; color: #374151;">Status dos Painéis:</div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+              <div style="width: 12px; height: 12px; background: #10b981; border-radius: 2px;"></div>
+              <span style="color: #374151;">Funcionamento Ideal</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+              <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 2px;"></div>
+              <span style="color: #374151;">Necessita Manutenção</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <div style="width: 12px; height: 12px; background: #ef4444; border-radius: 2px;"></div>
+              <span style="color: #374151;">Necessita Limpeza</span>
+            </div>
+          `;
+          
+          return div;
+        };
+        legend.addTo(map);
+        
+        mapInitialized = true;
+        console.log('Mapa da Usina Solar inicializado com sucesso!');
+        console.log(`${solarPanelsData.length} painéis monitorados no mapa`);
+        
+      } catch (error) {
+        console.error('Erro ao inicializar o mapa:', error);
+      }
+    }
+
+    // Função para atualizar horário
+    function updateTime() {
+      const timeElement = document.getElementById('last-update-time');
+      if (timeElement) {
+        timeElement.textContent = new Date().toLocaleTimeString('pt-BR');
+      }
+    }
+
+    // Função para inicializar o gráfico de CO² evitado
+    function initChart() {
+      // Cálculo mensal de CO² evitado baseado na geração solar
+      // Considerando sazonalidade brasileira e fator de emissão de 0,0817 tCO²/MWh
+      const monthlyCO2Avoided = [
+        1.474, // Janeiro - alta geração solar
+        1.350, // Fevereiro
+        1.412, // Março  
+        1.269, // Abril
+        1.165, // Maio - menor geração (inverno)
+        1.109, // Junho - menor geração
+        1.145, // Julho
+        1.228, // Agosto
+        1.296, // Setembro
+        1.380, // Outubro
+        1.432, // Novembro
+        1.513  // Dezembro - alta geração
+      ];
+
+      // CO² acumulativo (soma progressiva até 15.887 kg)
+      let accumulated = 0;
+      const accumulatedCO2 = monthlyCO2Avoided.map(monthly => {
+        accumulated += monthly;
+        return parseFloat((accumulated * 1000).toFixed(0)); // Converter para kg
+      });
+
+      // Linha de referência - consumo médio residencial brasileiro
+      const averageResidentialCO2 = [
+        850, 1650, 2400, 3100, 3750, 4350, 
+        4900, 5400, 5850, 6250, 6600, 6900
+      ];
+
+      const options = {
+        series: [{
+          name: 'CO² Evitado (Usina Solar)',
+          data: accumulatedCO2,
+          color: '#10b981'
+        }],
+        chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            show: false
+          },
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth',
+          width: [4, 3],
+          dashArray: [0, 5]
+        },
+        title: {
+          text: 'Impacto Ambiental Acumulativo - 2857 Painéis',
+          align: 'left',
+          style: {
+            fontSize: '16px',
+            fontWeight: 600,
+            color: '#374151'
+          }
+        },
+        subtitle: {
+          text: 'Equivale a plantar 250 árvores por ano 🌳',
+          align: 'left',
+          style: {
+            fontSize: '12px',
+            color: '#059669',
+            fontWeight: 500
+          }
+        },
+        grid: {
+          row: {
+            colors: ['#f9fafb', 'transparent'],
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: [
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+          ],
+          labels: {
+            style: {
+              colors: '#6b7280',
+              fontSize: '12px'
+            }
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'CO² Evitado (kg)',
+            style: {
+              color: '#374151',
+              fontSize: '12px',
+              fontWeight: 500
+            }
+          },
+          labels: {
+            style: {
+              colors: '#6b7280',
+              fontSize: '12px'
+            },
+            formatter: function (val) {
+              if (val >= 1000) {
+                return (val / 1000).toFixed(1) + 'K kg'
+              }
+              return val.toFixed(0) + ' kg'
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5,
+          labels: {
+            colors: '#374151'
+          },
+          markers: {
+            strokeWidth: 3
+          }
+        },
+        tooltip: {
+          theme: 'light',
+          style: {
+            fontSize: '12px'
+          },
+          y: {
+            formatter: function (val, { seriesIndex }) {
+              if (seriesIndex === 0) {
+                const monthlyValue = arguments[1].dataPointIndex === 0 ? 
+                  val : val - accumulatedCO2[arguments[1].dataPointIndex - 1];
+                return `${val.toLocaleString('pt-BR')} kg total (${monthlyValue.toLocaleString('pt-BR')} kg no mês)`;
+              } else {
+                return `${val.toLocaleString('pt-BR')} kg`;
+              }
+            }
+          },
+          x: {
+            formatter: function(val, { dataPointIndex }) {
+              const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+              return months[dataPointIndex];
+            }
+          }
+        },
+        markers: {
+          size: [6, 4],
+          strokeWidth: 2,
+          fillOpacity: 1,
+          strokeOpacity: 1,
+          hover: {
+            size: [8, 6]
+          }
+        },
+        annotations: {
+          points: [{
+            x: 'Dez',
+            y: 15887,
+            marker: {
+              size: 8,
+              fillColor: '#10b981',
+              strokeColor: '#ffffff',
+              strokeWidth: 3
+            },
+            label: {
+              borderColor: '#10b981',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#10b981',
+                fontSize: '11px',
+                fontWeight: 600
+              },
+              text: '15.887 kg/ano'
+            }
+          }]
+        }
+      };
+
+      const chart = new ApexCharts(document.querySelector("#monthly-generation-chart"), options);
+      chart.render();
+
+      // Calcular estatísticas para demonstração
+      const totalCO2Avoided = accumulatedCO2[11]; // Dezembro (último mês)
+      const treesEquivalent = Math.round(totalCO2Avoided / 63.5); // 1 árvore absorve ~63.5kg CO²/ano
+      const carsOffRoad = Math.round(totalCO2Avoided / 4600); // Carro médio emite ~4.6 toneladas/ano
+      
+      console.log(`Gráfico CO² inicializado:
+        - CO² Total Evitado: ${totalCO2Avoided.toLocaleString('pt-BR')} kg/ano
+        - Equivale a plantar: ${treesEquivalent} árvores
+        - Equivale a tirar: ${carsOffRoad} carros de circulação por 1 ano
+        - Benefício ambiental mensal médio: ${(totalCO2Avoided/12).toFixed(0)} kg/mês`);
+    }
+
+    // Simular atualização de dados em tempo real
+    function updateMetrics() {
+      const consumoElement = document.querySelector('.metric-card .metric-value');
+      if (consumoElement) {
+        const currentValue = parseFloat(consumoElement.textContent.replace(/[^\d.,]/g, '').replace(',', '.'));
+        const variation = (Math.random() - 0.5) * 0.1;
+        const newValue = Math.max(0, currentValue + variation).toFixed(3);
+        consumoElement.textContent = newValue.replace('.', ',') + ' kWh';
+      }
+
+      // Atualizar também os valores na sidebar
+      const quickStatValues = document.querySelectorAll('.quick-stat-value');
+      if (quickStatValues.length > 0) {
+        // Atualizar consumo na sidebar
+        const sidebarConsumo = quickStatValues[0];
+        if (sidebarConsumo && sidebarConsumo.textContent.includes('kWh')) {
+          const currentValue = parseFloat(sidebarConsumo.textContent.replace(/[^\d.,]/g, '').replace(',', '.'));
+          const variation = (Math.random() - 0.5) * 0.1;
+          const newValue = Math.max(0, currentValue + variation).toFixed(3);
+          sidebarConsumo.textContent = newValue.replace('.', ',') + ' kWh';
+        }
+      }
+
+      // Atualizar horário
+      updateTime();
+    }
+
+    // Atualizar métricas a cada 10 segundos
+    setInterval(updateMetrics, 10000);
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Dashboard carregado com ganhos concretos!');
+      updateTime();
+      initChart();
+    });
+
+    // Função para localizar painel no mapa
+    function locatePanelOnMap(panelId, lat, lng) {
+      // Verificar se o mapa foi inicializado
+      if (!map || !mapInitialized) {
+        // Inicializar o mapa se necessário
+        initMap();
+        // Aguardar um pouco para o mapa carregar
+        setTimeout(() => {
+          locatePanelOnMap(panelId, lat, lng);
+        }, 1000);
+        return;
+      }
+
+      // Ativar a aba do mapa
+      showTab('mapa');
+      
+      // Aguardar um pouco para a aba carregar
+      setTimeout(() => {
+        // Centralizar o mapa no painel específico
+        map.setView([lat, lng], 20, {
+          animate: true,
+          duration: 1.5
+        });
+
+        // Encontrar o marcador específico usando ID direto
+        const targetMarker = markersById[panelId];
+
+        if (targetMarker) {
+          // Abrir popup automaticamente
+          setTimeout(() => {
+            targetMarker.openPopup();
+            
+            // Animar o marcador (pulsar)
+            const markerElement = targetMarker.getElement();
+            if (markerElement) {
+              markerElement.style.animation = 'pulse 2s ease-in-out 3';
+              
+              // Remover animação após 6 segundos
+              setTimeout(() => {
+                if (markerElement && markerElement.style) {
+                  markerElement.style.animation = '';
+                }
+              }, 6000);
+            }
+          }, 1600);
+          
+          console.log(`✅ Painel ${panelId} localizado e destacado no mapa`);
+        } else {
+          console.warn(`⚠️ Marcador para painel ${panelId} não encontrado`);
+        }
+      }, 100);
+    }
+  </script>
+
 </body>
 </html>
